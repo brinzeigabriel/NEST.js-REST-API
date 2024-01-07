@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { EditionsController } from 'src/Controllers/editions.controller';
-import { EditionsService } from 'src/Services/editions.service';
+import { LaunchesController } from 'src/Controllers/launches.controller';
+import { LaunchesService } from 'src/Services/launches.service';
 
 @Module({
   imports: [],
-  controllers: [EditionsController],
-  providers: [EditionsService],
+  controllers: [LaunchesController],
+  providers: [LaunchesService],
 })
-export class EditionsModule {}
+export class LaunchesModule {}

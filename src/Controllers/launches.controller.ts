@@ -1,7 +1,7 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 
-@Controller('editions')
-export class EditionsController {
+@Controller('launches')
+export class LaunchesController {
   @Get()
   findAll() {}
 
