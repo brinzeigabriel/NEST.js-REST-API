@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
-import { LaunchesController } from 'src/Controllers/launches.controller';
-import { LaunchesService } from 'src/Services/launches.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { EditionsController } from 'src/Controllers/editions.controller';
+import { Editions } from 'src/Entities/editions.entity';
+import { EditionsService } from 'src/Services/editions.service';
 
 @Module({
-  imports: [],
-  controllers: [LaunchesController],
-  providers: [LaunchesService],
+  imports: [TypeOrmModule.forFeature([Editions])],
+  controllers: [EditionsController],
+  providers: [EditionsService],
 })
-export class LaunchesModule {}
+export class EditionsModule {}
