@@ -1,19 +1,48 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
+import { CreateEditionDto } from 'src/DTOs/create-edition.dto';
+import { UpdateEditionDto } from 'src/DTOs/update-edition.dto';
+import { EditionsService } from 'src/Services/editions.service';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
 @Controller('editions')
 export class EditionsController {
+  constructor(private readonly editionsService: EditionsService) {}
+
   @Get()
-  findAll() {}
+  async findAll(@Query() paginationQuery: PaginationQueryDto) {
+    return this.editionsService.findAll(paginationQuery);
+  }
 
   @Get(':id')
-  findOne() {}
+  async findOne(@Param('id') id: number) {
+    return this.editionsService.findOne(id);
+  }
 
   @Post()
-  create() {}
+  async create(@Body() createEditionDto: CreateEditionDto) {
+    //typesafety + flexibility with DTOs
+    return this.editionsService.create(createEditionDto);
+  }
 
   @Patch(':id')
-  update() {}
+  async update(
+    @Param('id') id: number,
+    @Body() updateEditionDto: UpdateEditionDto,
+  ) {
+    return this.editionsService.update(id, updateEditionDto);
+  }
 
   @Delete(':id')
-  remove() {}
+  async remove(@Param('id') id: number) {
+    return this.editionsService.remove(id);
+  }
 }

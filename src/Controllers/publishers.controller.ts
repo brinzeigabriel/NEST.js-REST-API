@@ -1,19 +1,48 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
+import { CreatePublisherDto } from 'src/DTOs/create-publisher.dto';
+import { UpdatePublisherDto } from 'src/DTOs/update-publisher.dto';
+import { PublishersService } from 'src/Services/publishers.service';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
 @Controller('publishers')
 export class PublishersController {
+  constructor(private readonly publishersService: PublishersService) {}
+
   @Get()
-  findAll() {}
+  async findAll(@Query() paginationQuery: PaginationQueryDto) {
+    return this.publishersService.findAll(paginationQuery);
+  }
 
   @Get(':id')
-  findOne() {}
+  async findOne(@Param('id') id: number) {
+    return this.publishersService.findOne(id);
+  }
 
   @Post()
-  create() {}
+  async create(@Body() createPublisherDto: CreatePublisherDto) {
+    //typesafety + flexibility with DTOs
+    return this.publishersService.create(createPublisherDto);
+  }
 
   @Patch(':id')
-  update() {}
+  async update(
+    @Param('id') id: number,
+    @Body() updatePublisherDto: UpdatePublisherDto,
+  ) {
+    return this.publishersService.update(id, updatePublisherDto);
+  }
 
   @Delete(':id')
-  remove() {}
+  async remove(@Param('id') id: number) {
+    return this.publishersService.remove(id);
+  }
 }

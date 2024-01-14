@@ -1,10 +1,12 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   Index,
   ManyToMany,
   PrimaryGeneratedColumn,
   Unique,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Books } from './books.entity';
 /* 
@@ -14,32 +16,36 @@ author_id|first_name|last_name|created_at|updated_at
 ==========================================================
 */
 @Entity()
-@Unique(['first_name', 'last_name'])
+@Unique(['firstName', 'lastName'])
 export class Authors {
-  @PrimaryGeneratedColumn()
-  author_id: number;
+  @PrimaryGeneratedColumn({ name: 'author_id' })
+  authorId: number;
 
   @Index()
-  @Column({ nullable: false })
-  first_name: string;
+  @Column({
+    name: 'first_name',
+    nullable: false,
+  })
+  firstName: string;
 
   @Index()
-  @Column({ nullable: false })
-  last_name: string;
+  @Column({
+    name: 'last_name',
+    nullable: false,
+  })
+  lastName: string;
 
   // unul/mai multi autori sunt asociati cu una/mai multe carti
-  @ManyToMany((type) => Books, (books) => books.book_authors)
+  @ManyToMany((type) => Books, (books) => books.bookAuthors)
   books: Books[];
 
-  @Column({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
+  @CreateDateColumn({
+    name: 'created_at',
   })
-  created_at: Date;
+  createdAt: Date;
 
-  @Column({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
+  @UpdateDateColumn({
+    name: 'updated_at',
   })
-  updated_at: Date;
+  updatedAt: Date;
 }

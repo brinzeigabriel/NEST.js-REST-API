@@ -1,11 +1,13 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   Unique,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Books } from './books.entity';
 /*
@@ -16,28 +18,29 @@ edition_id|edition_name|created_at|updated_at
 */
 @Entity()
 export class Editions {
-  @PrimaryGeneratedColumn()
-  edition_id: number;
+  @PrimaryGeneratedColumn({ name: 'edition_id' })
+  editionId: number;
 
   @Index()
-  @Unique(['edition_name'])
-  @Column({ nullable: false })
-  edition_name: string;
+  @Unique(['editionName'])
+  @Column({
+    name: 'edition_name',
+    nullable: false,
+  })
+  editionName: string;
 
   // una/mai multe editii este asociata unei carti
-  @ManyToOne((type) => Books, (books) => books.book_editions)
+  @ManyToOne((type) => Books, (books) => books.bookEditions)
   @JoinColumn({ name: 'book_id' })
   books: Books[];
 
-  @Column({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
+  @CreateDateColumn({
+    name: 'created_at',
   })
-  created_at: Date;
+  createdAt: Date;
 
-  @Column({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
+  @UpdateDateColumn({
+    name: 'updated_at',
   })
-  updated_at: Date;
+  updatedAt: Date;
 }

@@ -12,7 +12,7 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    //here add .modules.ts
+    //here add .modules.ts to start module endpoints
     AuthorsModule,
     BooksModule,
     EditionsModule,
