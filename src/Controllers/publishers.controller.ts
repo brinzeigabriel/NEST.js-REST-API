@@ -7,12 +7,15 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CreatePublisherDto } from 'src/DTOs/create-publisher.dto';
 import { UpdatePublisherDto } from 'src/DTOs/update-publisher.dto';
 import { PublishersService } from 'src/Services/publishers.service';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
+// @UseGuards(AuthGuard('jwt'))
 @Controller('publishers')
 export class PublishersController {
   constructor(private readonly publishersService: PublishersService) {}

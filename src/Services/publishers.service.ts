@@ -2,31 +2,33 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePublisherDto } from 'src/DTOs/create-publisher.dto';
 import { UpdatePublisherDto } from 'src/DTOs/update-publisher.dto';
-import { Publishers } from 'src/Entities/publishers.entity';
+import { Publisher } from 'src/Entities/publisher.entity';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class PublishersService {
   constructor(
-    @InjectRepository(Publishers)
-    private readonly publishersRepository: Repository<Publishers>,
+    @InjectRepository(Publisher)
+    private readonly publishersRepository: Repository<Publisher>,
   ) {}
 
-  async findAll(paginationQuery: PaginationQueryDto): Promise<Publishers[]> {
+  async findAll(paginationQuery: PaginationQueryDto): Promise<Publisher[]> {
     const { limit, offset } = paginationQuery;
     return this.publishersRepository.find({
       order: {
         publisherId: 'ASC',
       },
+      relations: ['books'],
       skip: offset,
       take: limit,
     });
   }
 
-  async findOne(publisherId: number): Promise<Publishers> {
+  async findOne(publisherId: number): Promise<Publisher> {
     const publisher = await this.publishersRepository.findOne({
       where: { publisherId },
+      relations: ['books'],
     });
     if (!publisher) {
       throw new NotFoundException(
@@ -36,7 +38,7 @@ export class PublishersService {
     return publisher;
   }
 
-  async create(createPublisherDto: CreatePublisherDto): Promise<Publishers> {
+  async create(createPublisherDto: CreatePublisherDto): Promise<Publisher> {
     const newPublisher = this.publishersRepository.create(createPublisherDto);
     return this.publishersRepository.save(newPublisher);
   }
@@ -44,7 +46,7 @@ export class PublishersService {
   async update(
     id: number,
     updatePublisherDto: UpdatePublisherDto,
-  ): Promise<Publishers> {
+  ): Promise<Publisher> {
     const publisher = await this.findOne(id); // Check if the publisher exists
 
     // Update only the provided fields

@@ -9,6 +9,7 @@ import { LaunchesModule } from './Modules/launches.module';
 import { LibrariesModule } from './Modules/libraries.module';
 import { PublishersModule } from './Modules/publishers.module';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -19,6 +20,8 @@ import { ConfigModule } from '@nestjs/config';
     LaunchesModule,
     LibrariesModule,
     PublishersModule,
+
+    AuthModule,
 
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({

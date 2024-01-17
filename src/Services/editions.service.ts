@@ -2,31 +2,33 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateEditionDto } from 'src/DTOs/create-edition.dto';
 import { UpdateEditionDto } from 'src/DTOs/update-edition.dto';
-import { Editions } from 'src/Entities/editions.entity';
+import { Edition } from 'src/Entities/edition.entity';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class EditionsService {
   constructor(
-    @InjectRepository(Editions)
-    private readonly editionsRepository: Repository<Editions>,
+    @InjectRepository(Edition)
+    private readonly editionsRepository: Repository<Edition>,
   ) {}
 
-  async findAll(paginationQuery: PaginationQueryDto): Promise<Editions[]> {
+  async findAll(paginationQuery: PaginationQueryDto): Promise<Edition[]> {
     const { limit, offset } = paginationQuery;
     return this.editionsRepository.find({
       order: {
         editionId: 'ASC',
       },
+      relations: ['books'],
       skip: offset,
       take: limit,
     });
   }
 
-  async findOne(editionId: number): Promise<Editions> {
+  async findOne(editionId: number): Promise<Edition> {
     const edition = await this.editionsRepository.findOne({
       where: { editionId },
+      relations: ['books'],
     });
     if (!edition) {
       throw new NotFoundException(`Edition with ID #${editionId} not found`);
@@ -34,7 +36,7 @@ export class EditionsService {
     return edition;
   }
 
-  async create(createEditionDto: CreateEditionDto): Promise<Editions> {
+  async create(createEditionDto: CreateEditionDto): Promise<Edition> {
     const newEdition = this.editionsRepository.create(createEditionDto);
     return this.editionsRepository.save(newEdition);
   }
@@ -42,7 +44,7 @@ export class EditionsService {
   async update(
     id: number,
     updateEditionDto: UpdateEditionDto,
-  ): Promise<Editions> {
+  ): Promise<Edition> {
     const edition = await this.findOne(id); // Check if the edition exists
 
     // Update only the provided fields

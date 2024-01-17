@@ -1,5 +1,14 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
+// @UseGuards(AuthGuard('jwt'))
 @Controller('launches')
 export class LaunchesController {
   @Get()

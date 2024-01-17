@@ -2,31 +2,33 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateLibraryDto } from 'src/DTOs/create-library.dto';
 import { UpdateLibraryDto } from 'src/DTOs/update-library.dto';
-import { Libraries } from 'src/Entities/libraries.entity';
+import { Library } from 'src/Entities/library.entity';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class LibrariesService {
   constructor(
-    @InjectRepository(Libraries)
-    private readonly librariesRepository: Repository<Libraries>,
+    @InjectRepository(Library)
+    private readonly librariesRepository: Repository<Library>,
   ) {}
 
-  async findAll(paginationQuery: PaginationQueryDto): Promise<Libraries[]> {
+  async findAll(paginationQuery: PaginationQueryDto): Promise<Library[]> {
     const { limit, offset } = paginationQuery;
     return this.librariesRepository.find({
       order: {
         libraryId: 'ASC',
       },
+      relations: ['books'],
       skip: offset,
       take: limit,
     });
   }
 
-  async findOne(libraryId: number): Promise<Libraries> {
+  async findOne(libraryId: number): Promise<Library> {
     const library = await this.librariesRepository.findOne({
       where: { libraryId },
+      relations: ['books'],
     });
     if (!library) {
       throw new NotFoundException(`Library with ID #${libraryId} not found`);
@@ -34,7 +36,7 @@ export class LibrariesService {
     return library;
   }
 
-  async create(createLibraryDto: CreateLibraryDto): Promise<Libraries> {
+  async create(createLibraryDto: CreateLibraryDto): Promise<Library> {
     const newLibrary = this.librariesRepository.create(createLibraryDto);
     return this.librariesRepository.save(newLibrary);
   }
@@ -42,7 +44,7 @@ export class LibrariesService {
   async update(
     id: number,
     updateLibraryDto: UpdateLibraryDto,
-  ): Promise<Libraries> {
+  ): Promise<Library> {
     const library = await this.findOne(id); // Check if the library exists
 
     // Update only the provided fields

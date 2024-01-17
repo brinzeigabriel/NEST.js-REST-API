@@ -7,12 +7,15 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CreateEditionDto } from 'src/DTOs/create-edition.dto';
 import { UpdateEditionDto } from 'src/DTOs/update-edition.dto';
 import { EditionsService } from 'src/Services/editions.service';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
+// @UseGuards(AuthGuard('jwt'))
 @Controller('editions')
 export class EditionsController {
   constructor(private readonly editionsService: EditionsService) {}

@@ -7,12 +7,15 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CreateAuthorDto } from 'src/DTOs/create-author.dto';
 import { UpdateAuthorDto } from 'src/DTOs/update-author.dto';
 import { AuthorsService } from 'src/Services/authors.service';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
+// @UseGuards(AuthGuard('jwt'))
 @Controller('authors')
 export class AuthorsController {
   constructor(private readonly authorsService: AuthorsService) {}

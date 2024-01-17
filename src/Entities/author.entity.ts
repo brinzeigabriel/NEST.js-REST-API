@@ -8,16 +8,16 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
-import { Books } from './books.entity';
+import { Book } from './book.entity';
 /* 
 Authors
 ==========================================================
 author_id|first_name|last_name|created_at|updated_at
 ==========================================================
 */
-@Entity()
+@Entity('authors')
 @Unique(['firstName', 'lastName'])
-export class Authors {
+export class Author {
   @PrimaryGeneratedColumn({ name: 'author_id' })
   authorId: number;
 
@@ -31,13 +31,13 @@ export class Authors {
   @Index()
   @Column({
     name: 'last_name',
-    nullable: true, // change it to false after you finish maping firstName and lastName in book.service.update()
+    nullable: false,
   })
   lastName: string;
 
   // unul/mai multi autori sunt asociati cu una/mai multe carti
-  @ManyToMany((type) => Books, (books) => books.bookAuthors)
-  books: Books[];
+  @ManyToMany((type) => Book, (books) => books.bookAuthors)
+  books: Book[];
 
   @CreateDateColumn({
     name: 'created_at',

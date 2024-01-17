@@ -7,12 +7,15 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CreateBookDto } from 'src/DTOs/create-book.dto';
 import { UpdateBookDto } from 'src/DTOs/update-book.dto';
 import { BooksService } from 'src/Services/books.service';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
+// @UseGuards(AuthGuard('jwt'))
 @Controller('books')
 export class BooksController {
   //injecting the BooksService inside BooksController
