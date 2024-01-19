@@ -21,7 +21,7 @@ import { AuthModule } from './auth/auth.module';
     LibrariesModule,
     PublishersModule,
 
-    AuthModule,
+    AuthModule, //introducem autorizare in tot API-ul
 
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({

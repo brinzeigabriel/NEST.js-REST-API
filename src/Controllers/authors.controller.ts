@@ -9,22 +9,23 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { CreateAuthorDto } from 'src/DTOs/create-author.dto';
 import { UpdateAuthorDto } from 'src/DTOs/update-author.dto';
 import { AuthorsService } from 'src/Services/authors.service';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { Public } from 'src/auth/decorators/public.decorator';
 
-// @UseGuards(AuthGuard('jwt'))
 @Controller('authors')
 export class AuthorsController {
   constructor(private readonly authorsService: AuthorsService) {}
 
+  @Public()
   @Get()
   async findAll(@Query() paginationQuery: PaginationQueryDto) {
     return this.authorsService.findAll(paginationQuery);
   }
 
+  @Public()
   @Get(':id')
   async findOne(@Param('id') id: number) {
     return this.authorsService.findOne(id);

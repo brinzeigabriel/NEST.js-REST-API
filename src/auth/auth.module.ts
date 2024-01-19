@@ -1,19 +1,30 @@
 import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './auth.service';
-import { JwtStrategy } from './jwt.strategy';
-import { LocalStrategy } from './local.strategy';
+import { UsersModule } from './users.module';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthController } from './auth.controller';
+import { jwtConstants } from './constants';
+import { AuthGuard } from './auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
-    PassportModule,
+    UsersModule,
     JwtModule.register({
-      secret: 'mySecretKeyForJWTOverHere',
-      signOptions: { expiresIn: '30s' },
+      global: true,
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '60s' }, //change expiration timer for token after showing how it works
     }),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [
+    AuthService,
+    {
+      //adaugam AuthGuard in tot RestAPI-ul in combinatie cu app.module.ts
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
+  controllers: [AuthController],
   exports: [AuthService],
 })
 export class AuthModule {}

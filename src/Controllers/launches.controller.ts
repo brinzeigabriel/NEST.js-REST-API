@@ -6,9 +6,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 
-// @UseGuards(AuthGuard('jwt'))
 @Controller('launches')
 export class LaunchesController {
   @Get()
