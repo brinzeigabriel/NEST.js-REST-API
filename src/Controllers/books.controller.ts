@@ -15,8 +15,9 @@ import { UpdateBookDto } from 'src/DTOs/update-book.dto';
 import { BooksService } from 'src/Services/books.service';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
-// @UseGuards(AuthGuard)
+@ApiTags('Books')
 @Controller('books')
 export class BooksController {
   //injecting the BooksService inside BooksController
@@ -34,17 +35,20 @@ export class BooksController {
     return this.booksService.findOne(id);
   }
 
+  @ApiBearerAuth()
   @Post()
   create(@Body() createBookDto: CreateBookDto) {
     //typesafety + flexibility with DTOs
     return this.booksService.create(createBookDto);
   }
 
+  @ApiBearerAuth()
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateBookDto: UpdateBookDto) {
     return this.booksService.update(id, updateBookDto);
   }
 
+  @ApiBearerAuth()
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.booksService.remove(id);

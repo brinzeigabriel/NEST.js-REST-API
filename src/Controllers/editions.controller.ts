@@ -14,7 +14,9 @@ import { UpdateEditionDto } from 'src/DTOs/update-edition.dto';
 import { EditionsService } from 'src/Services/editions.service';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Editions')
 @Controller('editions')
 export class EditionsController {
   constructor(private readonly editionsService: EditionsService) {}
@@ -31,12 +33,14 @@ export class EditionsController {
     return this.editionsService.findOne(id);
   }
 
+  @ApiBearerAuth()
   @Post()
   async create(@Body() createEditionDto: CreateEditionDto) {
     //typesafety + flexibility with DTOs
     return this.editionsService.create(createEditionDto);
   }
 
+  @ApiBearerAuth()
   @Patch(':id')
   async update(
     @Param('id') id: number,
@@ -45,6 +49,7 @@ export class EditionsController {
     return this.editionsService.update(id, updateEditionDto);
   }
 
+  @ApiBearerAuth()
   @Delete(':id')
   async remove(@Param('id') id: number) {
     return this.editionsService.remove(id);

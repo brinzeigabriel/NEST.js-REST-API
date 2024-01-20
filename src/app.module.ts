@@ -13,17 +13,7 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    //here add .modules.ts to start module endpoints
-    AuthorsModule,
-    BooksModule,
-    EditionsModule,
-    LaunchesModule,
-    LibrariesModule,
-    PublishersModule,
-
-    AuthModule, //introducem autorizare in tot API-ul
-
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot(), //loads .env file
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DATABASE_HOST,
@@ -34,6 +24,16 @@ import { AuthModule } from './auth/auth.module';
       autoLoadEntities: true,
       synchronize: true, // typeorm entities should e synced with db, !!!false in production
     }),
+
+    AuthModule, //introducem autorizare in tot API-ul
+
+    //here add .modules.ts to start module endpoints
+    AuthorsModule,
+    BooksModule,
+    EditionsModule,
+    LaunchesModule,
+    LibrariesModule,
+    PublishersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
