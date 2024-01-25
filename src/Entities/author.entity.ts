@@ -4,11 +4,14 @@ import {
   Entity,
   Index,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { Book } from './book.entity';
+import { IsNotEmpty } from 'class-validator';
+import { Launch } from './launch.entity';
 /* 
 Authors
 ==========================================================
@@ -26,6 +29,7 @@ export class Author {
     name: 'first_name',
     nullable: false,
   })
+  @IsNotEmpty()
   firstName: string;
 
   @Index()
@@ -33,11 +37,14 @@ export class Author {
     name: 'last_name',
     nullable: false,
   })
+  @IsNotEmpty()
   lastName: string;
 
-  // unul/mai multi autori sunt asociati cu una/mai multe carti
-  @ManyToMany((type) => Book, (books) => books.bookAuthors)
-  books: Book[];
+  @Column({ name: 'available_start_time', type: 'time', nullable: true })
+  availableStartTime: string;
+
+  @Column({ name: 'available_end_time', type: 'time', nullable: true })
+  availableEndTime: string;
 
   @CreateDateColumn({
     name: 'created_at',
@@ -48,4 +55,11 @@ export class Author {
     name: 'updated_at',
   })
   updatedAt: Date;
+
+  // unul/mai multi autori sunt asociati cu una/mai multe carti
+  @ManyToMany((type) => Book, (books) => books.bookAuthors)
+  books: Book[];
+
+  @OneToMany((type) => Launch, (launch) => launch.launchAuthor)
+  launches: Launch[];
 }

@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Book } from './book.entity';
+import { IsNotEmpty } from 'class-validator';
 /*
 Publishers
 =======================================================
@@ -26,11 +27,8 @@ export class Publisher {
     name: 'publisher_name',
     nullable: false,
   })
+  @IsNotEmpty()
   publisherName: string;
-
-  // una/mai multe edituri au una/mai multe carti
-  @ManyToMany((type) => Book, (books) => books.publishers)
-  books: Book[];
 
   @CreateDateColumn({
     name: 'created_at',
@@ -41,4 +39,8 @@ export class Publisher {
     name: 'updated_at',
   })
   updatedAt: Date;
+
+  // una/mai multe edituri au una/mai multe carti
+  @ManyToMany((type) => Book, (books) => books.publishers)
+  books: Book[];
 }

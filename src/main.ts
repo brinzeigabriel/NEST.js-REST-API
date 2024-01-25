@@ -7,9 +7,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // avoid passing wrong data
+      whitelist: true, // avoid passing wrong data // X must be a string
       transform: true, // auto transform/ conversion
-      forbidNonWhitelisted: true, // returns error when passing wrong data
+      forbidNonWhitelisted: true, // returns error when passing wrong data // property X should not exist
       transformOptions: {
         enableImplicitConversion: true,
       },

@@ -6,6 +6,7 @@ import {
   Index,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
@@ -14,6 +15,8 @@ import { Author } from './author.entity';
 import { Edition } from './edition.entity';
 import { Library } from './library.entity';
 import { Publisher } from './publisher.entity';
+import { IsNotEmpty } from 'class-validator';
+import { Launch } from './launch.entity';
 /*
 Books
 ========================================================================================================================
@@ -31,7 +34,58 @@ export class Book {
     name: 'book_title',
     nullable: false,
   })
+  @IsNotEmpty()
   bookTitle: string;
+
+  @Column({
+    name: 'book_description',
+    nullable: false,
+  })
+  @IsNotEmpty()
+  bookDescription: string;
+
+  @Column({
+    name: 'book_pages',
+    nullable: false,
+  })
+  @Check(`"book_pages">= 0`)
+  bookPages: number;
+
+  @Column({
+    name: 'book_price',
+    nullable: false,
+  })
+  @Check(`"book_price">= 0`)
+  bookPrice: number;
+
+  @Column({
+    name: 'book_rating',
+    default: 0,
+  })
+  @Check(`"book_rating" >= 0 AND "book_rating" <= 10`)
+  bookRating: number;
+
+  @Column({
+    name: 'book_publish_year',
+    nullable: false,
+  })
+  bookPublishYear: string;
+
+  @Column({
+    name: 'book_sales',
+    default: 0,
+  })
+  bookSales: number;
+
+  @CreateDateColumn({
+    name: 'created_at',
+  })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    name: 'updated_at',
+  })
+  updatedAt: Date;
 
   @JoinTable({
     name: 'books_editions',
@@ -67,33 +121,6 @@ export class Book {
   })
   bookAuthors: Author[];
 
-  @Column({
-    name: 'book_description',
-    nullable: false,
-  })
-  bookDescription: string;
-
-  @Column({
-    name: 'book_pages',
-    nullable: false,
-  })
-  @Check(`"book_pages">= 0`)
-  bookPages: number;
-
-  @Column({
-    name: 'book_price',
-    nullable: false,
-  })
-  @Check(`"book_price">= 0`)
-  bookPrice: number;
-
-  @Column({
-    name: 'book_rating',
-    default: 0,
-  })
-  @Check(`"book_rating" >= 0 AND "book_rating" <= 10`)
-  bookRating: number;
-
   @JoinTable({
     name: 'books_libraries',
     joinColumn: {
@@ -128,26 +155,6 @@ export class Book {
   })
   publishers: Publisher[];
 
-  @Column({
-    name: 'book_publish_year',
-    type: 'date',
-    nullable: false,
-  })
-  bookPublishYear: Date;
-
-  @Column({
-    name: 'book_sales',
-    default: 0,
-  })
-  bookSales: number;
-
-  @CreateDateColumn({
-    name: 'created_at',
-  })
-  createdAt: Date;
-
-  @UpdateDateColumn({
-    name: 'updated_at',
-  })
-  updatedAt: Date;
+  @OneToMany((type) => Launch, (launch) => launch.launchBook)
+  launches: Launch[];
 }

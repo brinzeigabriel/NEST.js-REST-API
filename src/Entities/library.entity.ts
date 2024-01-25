@@ -4,11 +4,14 @@ import {
   Entity,
   Index,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { Book } from './book.entity';
+import { IsNotEmpty } from 'class-validator';
+import { Launch } from './launch.entity';
 /*
 Libraries
 ===================================================
@@ -26,11 +29,8 @@ export class Library {
     name: 'library_name',
     nullable: false,
   })
+  @IsNotEmpty()
   libraryName: string;
-
-  // una/mai multe librarii pot avea una/mai multe carti
-  @ManyToMany((type) => Book, (books) => books.libraries)
-  books: Book[];
 
   @Column({ name: 'start_time', type: 'time', nullable: true })
   startTime: string;
@@ -47,4 +47,11 @@ export class Library {
     name: 'updated_at',
   })
   updatedAt: Date;
+
+  // una/mai multe librarii pot avea una/mai multe carti
+  @ManyToMany((type) => Book, (books) => books.libraries)
+  books: Book[];
+
+  @OneToMany((type) => Launch, (launch) => launch.launchLibrary)
+  launches: Launch[];
 }
