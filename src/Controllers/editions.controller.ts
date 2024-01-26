@@ -7,7 +7,6 @@ import {
   Patch,
   Post,
   Query,
-  UseGuards,
 } from '@nestjs/common';
 import { CreateEditionDto } from 'src/DTOs/create-edition.dto';
 import { UpdateEditionDto } from 'src/DTOs/update-edition.dto';

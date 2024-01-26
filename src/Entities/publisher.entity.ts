@@ -12,9 +12,9 @@ import { Book } from './book.entity';
 import { IsNotEmpty } from 'class-validator';
 /*
 Publishers
-=======================================================
+=================================================
 publisher_id|publisher_name|created_at|updated_at
-=======================================================
+=================================================
 */
 @Entity('publishers')
 export class Publisher {

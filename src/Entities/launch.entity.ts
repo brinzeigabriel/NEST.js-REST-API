@@ -4,7 +4,6 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -13,9 +12,9 @@ import { Library } from './library.entity';
 import { Author } from './author.entity';
 /*
 Launches
-========================================================================================================================
-launch_id|book_launch_date|author_confirmation|book_id|author_id|library_id|created_at|updated_at
-========================================================================================================================
+==============================================================================================
+launch_id|book_launch_date|book_launch_time|book_id|author_id|library_id|created_at|updated_at
+==============================================================================================
 */
 @Entity('launches')
 export class Launch {

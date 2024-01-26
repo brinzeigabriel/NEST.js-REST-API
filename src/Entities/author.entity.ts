@@ -14,9 +14,9 @@ import { IsNotEmpty } from 'class-validator';
 import { Launch } from './launch.entity';
 /* 
 Authors
-==========================================================
-author_id|first_name|last_name|created_at|updated_at
-==========================================================
+============================================================================================
+author_id|first_name|last_name|available_start_time|available_end_time|created_at|updated_at
+============================================================================================
 */
 @Entity('authors')
 @Unique(['firstName', 'lastName'])
@@ -40,10 +40,10 @@ export class Author {
   @IsNotEmpty()
   lastName: string;
 
-  @Column({ name: 'available_start_time', type: 'time', nullable: true })
+  @Column({ name: 'available_start_time', type: 'time', nullable: false })
   availableStartTime: string;
 
-  @Column({ name: 'available_end_time', type: 'time', nullable: true })
+  @Column({ name: 'available_end_time', type: 'time', nullable: false })
   availableEndTime: string;
 
   @CreateDateColumn({

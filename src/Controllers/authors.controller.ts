@@ -7,7 +7,6 @@ import {
   Patch,
   Post,
   Query,
-  UseGuards,
 } from '@nestjs/common';
 import { CreateAuthorDto } from 'src/DTOs/create-author.dto';
 import { UpdateAuthorDto } from 'src/DTOs/update-author.dto';

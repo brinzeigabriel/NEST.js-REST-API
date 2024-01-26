@@ -14,9 +14,9 @@ import { IsNotEmpty } from 'class-validator';
 import { Launch } from './launch.entity';
 /*
 Libraries
-===================================================
-library_id|library_name|created_at|updated_at
-===================================================
+=================================================================
+library_id|library_name|start_time|end_time|created_at|updated_at
+=================================================================
 */
 @Entity('libraries')
 export class Library {
@@ -32,10 +32,10 @@ export class Library {
   @IsNotEmpty()
   libraryName: string;
 
-  @Column({ name: 'start_time', type: 'time', nullable: true })
+  @Column({ name: 'start_time', type: 'time', nullable: false })
   startTime: string;
 
-  @Column({ name: 'end_time', type: 'time', nullable: true })
+  @Column({ name: 'end_time', type: 'time', nullable: false })
   endTime: string;
 
   @CreateDateColumn({

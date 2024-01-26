@@ -7,7 +7,6 @@ import {
   Patch,
   Post,
   Query,
-  UseGuards,
 } from '@nestjs/common';
 import { CreateLibraryDto } from 'src/DTOs/create-library.dto';
 import { UpdateLibraryDto } from 'src/DTOs/update-library.dto';

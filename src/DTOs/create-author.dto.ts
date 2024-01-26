@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString, Matches } from 'class-validator';
+import { IsNotEmpty, IsString, Matches } from 'class-validator';
 
 export class CreateAuthorDto {
   @IsString()
@@ -9,14 +9,12 @@ export class CreateAuthorDto {
   @IsNotEmpty()
   readonly lastName: string;
 
-  @IsOptional()
   @IsString()
   @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
     message: 'Invalid time format. Please use hh:mm.',
   })
   readonly availableStartTime: string;
 
-  @IsOptional()
   @IsString()
   @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
     message: 'Invalid time format. Please use hh:mm.',

@@ -1,12 +1,10 @@
 import {
   IsArray,
-  IsDate,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
   Length,
-  Matches,
   ValidateNested,
 } from 'class-validator';
 import { CreateAuthorDto } from './create-author.dto';
